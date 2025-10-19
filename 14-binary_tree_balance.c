@@ -1,19 +1,29 @@
 #include "binary_trees.h"
 
+/* local height helper so this file compiles standalone in the checker */
+static size_t height(const binary_tree_t *tree)
+{
+	size_t lh, rh;
+
+	if (!tree)
+		return (0);
+	lh = height(tree->left);
+	rh = height(tree->right);
+	return ((lh > rh ? lh : rh) + 1);
+}
+
 /**
- * binary_tree_balance - Compute the balance factor of a binary tree
- * @tree: Pointer to the root node
- *
- * Return: height(left subtree) - height(right subtree).
- *         If tree is NULL, return 0.
- *         Height here is measured in edges (leaf => 0), and
- *         binary_tree_height(NULL) returns 0 — matching project examples.
+ * binary_tree_balance - balance factor = height(left) - height(right)
+ * @tree: root
+ * Return: balance, or 0 if tree is NULL
  */
 int binary_tree_balance(const binary_tree_t *tree)
 {
+	int l = 0, r = 0;
+
 	if (!tree)
 		return (0);
-
-	return ((int)binary_tree_height(tree->left)
-	      - (int)binary_tree_height(tree->right));
+	l = (int)height(tree->left);
+	r = (int)height(tree->right);
+	return (l - r);
 }
